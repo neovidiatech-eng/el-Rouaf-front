@@ -6,33 +6,34 @@
 
 :root {
   --color-primary: #D9A76A;
-  --color-primary-dark: #b88544;
-  --color-primary-light: #edd3b3;
+  --color-primary-dark: #C69050;
+  --color-primary-light: #F4E7D5;
 
   --color-secondary: #D9C3A9;
-  --color-secondary-dark: #c4ab8e;
-  --color-secondary-light: #f3eae0;
+  --color-secondary-dark: #C4AB8E;
+  --color-secondary-light: #F7F1E8;
 
   --color-accent: #D9A76A;
-  --color-accent-dark: #b88544;
-  --color-accent-light: #fdf8f2;
+  --color-accent-dark: #C69050;
+  --color-accent-light: #FAF4EB;
 
-  --color-success: #10b981;
-  --color-warning: #f59e0b;
-  --color-error: #ef4444;
+  --color-success: #10B981;
+  --color-warning: #F59E0B;
+  --color-error: #EF4444;
 
-  --color-text-primary: #111827;
-  --color-text-secondary: #6b7280;
-  --color-text-light: #9ca3af;
+  --color-text-primary: #1F2937;
+  --color-text-secondary: #6B7280;
+  --color-text-light: #9CA3AF;
 
-  --color-bg-primary: #ffffff;
-  --color-bg-secondary: #D9C3A9;
-  --color-bg-tertiary: #ede4d8;
+  --color-bg-primary: #FFFFFF;
+  --color-bg-secondary: #FAF7F2;
+  --color-bg-tertiary: #F3ECE2;
 }
 
 @layer base {
   body {
-    background-color: #D9C3A9;
+    background-color: #FAF7F2;
+    color: #1F2937;
     font-family: 'Almarai', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
       'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
       sans-serif;
@@ -42,8 +43,9 @@
 
   .min-h-screen.bg-gray-50,
   .min-h-screen.bg-slate-50,
-  .bg-gray-50.min-h-screen {
-    background-color: #D9C3A9;
+  .bg-gray-50.min-h-screen,
+  div.min-h-screen.bg-gray-50 {
+    background-color: #FAF7F2 !important;
   }
 }
 

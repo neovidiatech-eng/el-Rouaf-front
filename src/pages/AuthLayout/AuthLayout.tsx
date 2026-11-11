@@ -17,15 +17,15 @@ const AuthLayout = () => {
 
   return (
     <div
-      className="min-h-screen bg-[#D9C3A9] flex items-center justify-center p-4 md:p-6 lg:p-8 relative overflow-hidden"
+      className="min-h-screen bg-[#FAF7F2] flex items-center justify-center p-4 md:p-6 lg:p-8 relative overflow-hidden"
       dir={language === "ar" ? "rtl" : "ltr"}
     >
       {/* Premium glowing backdrop blobs */}
-      <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-primary/20 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] bg-[#D9C3A9]/40 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] bg-[#D9C3A9]/20 rounded-full blur-[120px] pointer-events-none" />
 
       {/* Main Responsive Split Container */}
-      <div className="w-full max-w-5xl bg-white rounded-[2.5rem] shadow-2xl shadow-stone-900/10 border border-[#D9C3A9]/40 overflow-hidden grid grid-cols-1 lg:grid-cols-12 min-h-[680px] relative z-10">
+      <div className="w-full max-w-5xl bg-white rounded-[2.5rem] shadow-2xl shadow-stone-800/5 border border-stone-200/60 overflow-hidden grid grid-cols-1 lg:grid-cols-12 min-h-[680px] relative z-10">
 
         {/* Left Side: Brand Panel (Only visible on lg screens) */}
         <div className="auth-brand-panel hidden lg:flex lg:col-span-5 bg-gradient-to-br from-primary via-primary-dark to-[#855720] p-12 text-white flex-col justify-between relative overflow-hidden">
@@ -50,7 +50,7 @@ const AuthLayout = () => {
           <div className="relative z-10 my-auto py-8 text-start">
             <h1 className="text-3xl font-bold leading-tight mb-4">
               {isTeacherRegister
-                ? (language === 'ar' ? 'انضم إلى فريق المدرسين في رواف' : 'Join the Teaching Team at RAWAF')
+                ? (language === 'ar' ? 'انضم إلى فريق المدرسين في رواف' : 'Join the Teaching Team at ROUAF')
                 : (language === 'ar' ? 'رحلتك نحو المعرفة والتميز تبدأ من هنا' : 'Your Journey to Knowledge & Excellence Starts Here')}
             </h1>
             <p className="text-white/80 text-sm leading-relaxed mb-8">
@@ -128,8 +128,8 @@ const AuthLayout = () => {
                 <button
                   onClick={() => navigate("/login")}
                   className={`flex-1 py-3 text-sm font-bold rounded-xl transition-all duration-300 ${isLogin
-                      ? "bg-white text-primary shadow-md shadow-slate-200/50 border border-slate-100/50"
-                      : "text-slate-500 hover:text-slate-800 hover:bg-slate-100/50"
+                    ? "bg-white text-primary shadow-md shadow-slate-200/50 border border-slate-100/50"
+                    : "text-slate-500 hover:text-slate-800 hover:bg-slate-100/50"
                     }`}
                 >
                   {t("login")}
@@ -137,8 +137,8 @@ const AuthLayout = () => {
                 <button
                   onClick={() => navigate("/register")}
                   className={`flex-1 py-3 text-sm font-bold rounded-xl transition-all duration-300 ${isRegister
-                      ? "bg-white text-primary shadow-md shadow-slate-200/50 border border-slate-100/50"
-                      : "text-slate-500 hover:text-slate-800 hover:bg-slate-100/50"
+                    ? "bg-white text-primary shadow-md shadow-slate-200/50 border border-slate-100/50"
+                    : "text-slate-500 hover:text-slate-800 hover:bg-slate-100/50"
                     }`}
                 >
                   {language === "ar" ? "تسجيل طالب جديد" : "Register New Student"}
@@ -147,8 +147,8 @@ const AuthLayout = () => {
                 <button
                   onClick={() => navigate("/teacher-register")}
                   className={`flex-1 py-3 text-sm font-bold rounded-xl transition-all duration-300 ${isTeacherRegister
-                      ? "bg-white text-primary shadow-md shadow-slate-200/50 border border-slate-100/50"
-                      : "text-slate-500 hover:text-slate-800 hover:bg-slate-100/50"
+                    ? "bg-white text-primary shadow-md shadow-slate-200/50 border border-slate-100/50"
+                    : "text-slate-500 hover:text-slate-800 hover:bg-slate-100/50"
                     }`}
                 >
                   {language === "ar" ? "تسجيل معلم جديد" : "Register New Teacher"}

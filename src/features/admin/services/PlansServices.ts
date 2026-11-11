@@ -1,11 +1,51 @@
 import api from "../../../lib/axios";
-import {PlanBody } from "../../../types/plan";
+import { PlanBody } from "../../../types/plan";
+
+const LEGACY_COLORS = new Set([
+  '#369589',
+  '#27776b',
+  '#84ada7',
+  '#00a8a8',
+  '#1e5850',
+  '#2c7a70',
+  '#3b82f6',
+  '#2563eb',
+  '#10b981',
+  '#16a34a',
+  '#000000',
+  '#000',
+  '#111827',
+  '#0f172a',
+]);
+
+export const normalizePlanColor = (color?: string): string => {
+  if (!color) return '#D9A76A';
+  const clean = color.trim().toLowerCase();
+  if (
+    LEGACY_COLORS.has(clean) ||
+    clean.startsWith('#369') ||
+    clean.startsWith('#277') ||
+    clean.startsWith('#00a8') ||
+    clean.startsWith('#3b8') ||
+    clean.startsWith('#256')
+  ) {
+    return '#D9A76A';
+  }
+  return color;
+};
 
 // get plans
 export const getPlans = async (): Promise<any[]> => {
   try {
     const response = await api.get("/subscription/plans");
-    return response.data.data;
+    const plans = response.data?.data;
+    if (Array.isArray(plans)) {
+      return plans.map((p) => ({
+        ...p,
+        color: normalizePlanColor(p.color),
+      }));
+    }
+    return plans;
   } catch (error) {
     console.error("Get plans failed:", error);
     throw error;

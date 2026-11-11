@@ -43,7 +43,7 @@ export default function EditPlanModal({
     sessionsCount: plan.sessionsCount,
     features: [...plan.features],
     isPopular: plan.isPopular,
-    color: plan.color || '#3b82f6',
+    color: plan.color || '#D9A76A',
     status: plan.status,
   });
 
@@ -301,7 +301,7 @@ export default function EditPlanModal({
             </label>
             <div className="flex items-center gap-3">
               <input type="color" value={formData.color} onChange={(e) => setFormData({ ...formData, color: e.target.value })} className="w-14 h-10 rounded-lg cursor-pointer border border-gray-300 p-0" />
-              <input type="text" value={formData.color} onChange={(e) => setFormData({ ...formData, color: e.target.value })} className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg text-start" placeholder="#3b82f6" dir="ltr" />
+              <input type="text" value={formData.color} onChange={(e) => setFormData({ ...formData, color: e.target.value })} className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg text-start" placeholder="#D9A76A" dir="ltr" />
             </div>
           </div>
 

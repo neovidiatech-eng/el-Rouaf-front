@@ -18,6 +18,7 @@ import localeEn from 'antd/es/locale/en_US';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ar';
 import { usePlans } from "../features/admin/hooks/usePlans";
+import { normalizePlanColor } from "../features/admin/services/PlansServices";
 import { useNavigate } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -72,7 +73,7 @@ export default function Register({ onRegisterSuccess }: RegisterProps) {
   const selectedPlanObj = plansData?.find((p) => p.id === selectedPackage);
 
   const filteredPlans = plansData?.filter((pkg) => {
-    if (planFilter === 'single') return !pkg.planType || pkg.planType === 'single';
+    if (planFilter === 'single') return !pkg.planType || pkg.planType === 'individual';
     if (planFilter === 'group') return pkg.planType === 'group';
     return true;
   });
@@ -482,7 +483,7 @@ export default function Register({ onRegisterSuccess }: RegisterProps) {
 
               {filteredPlans?.map((pkg) => {
                 const isGroup = pkg.planType === 'group';
-                const pkgColor = pkg.color || '#D9A76A';
+                const pkgColor = normalizePlanColor(pkg.color);
                 const isSelected = selectedPackage === pkg.id;
 
                 return (
@@ -491,11 +492,11 @@ export default function Register({ onRegisterSuccess }: RegisterProps) {
                     type="button"
                     onClick={() => setValue("plan_id", pkg.id, { shouldValidate: true })}
                     className={`w-full rounded-2xl border-2 transition-all text-start relative overflow-hidden flex flex-col justify-between min-h-[95px] cursor-pointer ${
-                      isSelected ? "shadow-lg scale-[1.01]" : "hover:shadow-md hover:border-slate-300"
+                      isSelected ? "shadow-md scale-[1.01]" : "hover:shadow-sm hover:border-[#D9A76A]/50"
                     }`}
                     style={{
-                      borderColor: pkgColor,
-                      backgroundColor: isSelected ? `${pkgColor}12` : '#ffffff',
+                      borderColor: isSelected ? pkgColor : '#E5DFD7',
+                      backgroundColor: isSelected ? '#FAF4EB' : '#ffffff',
                     }}
                   >
                     {isSelected && (
@@ -510,7 +511,7 @@ export default function Register({ onRegisterSuccess }: RegisterProps) {
                       <div className="flex items-center justify-between gap-1 mb-1">
                         <div
                           className="font-bold text-sm"
-                          style={{ color: isSelected ? pkgColor : '#1e293b' }}
+                          style={{ color: isSelected ? '#B87D38' : '#1e293b' }}
                         >
                           {language === "ar" ? pkg.name_ar : pkg.name_en}
                         </div>
@@ -518,7 +519,7 @@ export default function Register({ onRegisterSuccess }: RegisterProps) {
                           <span className="inline-flex items-center gap-1 text-[10px] px-2 py-0.5 rounded-full bg-purple-100 text-purple-700 font-extrabold border border-purple-200">
                             <Users className="w-3 h-3" />
                             {(() => {
-                              const raw = pkg.maxStudents ?? pkg.studentsNum;
+                              const raw = pkg.maxStudents ?? pkg.maxStudents;
                               const str = String(raw ?? '').trim().toLowerCase();
                               const isUnlimited = !str || str === '0' || str === 'unlimited';
                               if (isUnlimited) {
@@ -565,9 +566,9 @@ export default function Register({ onRegisterSuccess }: RegisterProps) {
                     <div className="flex items-center gap-2">
                       <span>{language === 'ar' ? `إعداد الخطة الجماعية` : `Group Plan Setup`}</span>
                       <span className="text-[10px] bg-purple-200 text-purple-800 px-2 py-0.5 rounded-full font-bold">
-                        {String(selectedPlanObj.maxStudents ?? selectedPlanObj.studentsNum) === '0'
+                        {String(selectedPlanObj.maxStudents ?? selectedPlanObj.maxStudents) === '0'
                           ? (language === 'ar' ? 'غير محدود' : 'Unlimited')
-                          : `${selectedPlanObj.maxStudents ?? selectedPlanObj.studentsNum ?? 2} ${language === 'ar' ? 'طلاب' : 'students'}`}
+                          : `${selectedPlanObj.maxStudents ?? selectedPlanObj.maxStudents ?? 2} ${language === 'ar' ? 'طلاب' : 'students'}`}
                       </span>
                     </div>
                   </div>
@@ -595,12 +596,12 @@ export default function Register({ onRegisterSuccess }: RegisterProps) {
                 <div className="space-y-2 pt-1">
                   <label className="block text-xs font-bold text-slate-700">
                     {language === 'ar'
-                      ? String(selectedPlanObj.maxStudents ?? selectedPlanObj.studentsNum) === '0'
+                      ? String(selectedPlanObj.maxStudents ?? selectedPlanObj.maxStudents) === '0'
                         ? 'دعوة زملائك للمجموعة'
-                        : `دعوة زملائك للمجموعة (حتى ${Math.max(1, (Number(selectedPlanObj.maxStudents ?? selectedPlanObj.studentsNum ?? 2) - 1))} أعضاء)`
-                      : String(selectedPlanObj.maxStudents ?? selectedPlanObj.studentsNum) === '0'
+                        : `دعوة زملائك للمجموعة (حتى ${Math.max(1, (Number(selectedPlanObj.maxStudents ?? selectedPlanObj.maxStudents ?? 2) - 1))} أعضاء)`
+                      : String(selectedPlanObj.maxStudents ?? selectedPlanObj.maxStudents) === '0'
                         ? 'Invite Members'
-                        : `Invite Members (up to ${Math.max(1, (Number(selectedPlanObj.maxStudents ?? selectedPlanObj.studentsNum ?? 2) - 1))} members)`}
+                        : `Invite Members (up to ${Math.max(1, (Number(selectedPlanObj.maxStudents ?? selectedPlanObj.maxStudents ?? 2) - 1))} members)`}
                   </label>
                   {groupMembers.map((member, idx) => (
                     <div key={idx} className="flex gap-2 items-center">
@@ -627,8 +628,8 @@ export default function Register({ onRegisterSuccess }: RegisterProps) {
                     </div>
                   ))}
 
-                  {(String(selectedPlanObj.maxStudents ?? selectedPlanObj.studentsNum) === '0' ||
-                    groupMembers.length < Math.max(1, (Number(selectedPlanObj.maxStudents ?? selectedPlanObj.studentsNum ?? 2) - 1))) && (
+                  {(String(selectedPlanObj.maxStudents ?? selectedPlanObj.maxStudents) === '0' ||
+                    groupMembers.length < Math.max(1, (Number(selectedPlanObj.maxStudents ?? selectedPlanObj.maxStudents ?? 2) - 1))) && (
                     <button
                       type="button"
                       onClick={() => setGroupMembers([...groupMembers, ""])}

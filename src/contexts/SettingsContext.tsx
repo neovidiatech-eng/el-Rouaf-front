@@ -34,7 +34,7 @@ export interface PlatformSettings {
 }
 
 const defaultSettings: PlatformSettings = {
-  name: 'RAWAF',
+  name: 'ROUAF',
   description: 'منصة تعليمية متكاملة للطلاب والمعلمين وأولياء الأمور وإدارة الأكاديمية.',
   logoUrl: '/logo.jpeg',
   faviconUrl: '/logo.jpeg',
@@ -43,9 +43,9 @@ const defaultSettings: PlatformSettings = {
   accentColor: '#D9A76A',
   fontFamily: 'Almarai',
   seo: {
-    metaTitle: 'RAWAF | رواف',
-    metaDescription: 'RAWAF - رواف | منصة تعليمية متكاملة للطلاب والمعلمين وأولياء الأمور وإدارة الأكاديمية.',
-    keywords: 'RAWAF, رواف, LMS, learning management system, online education, courses, students, teachers',
+    metaTitle: 'ROUAF | رواف',
+    metaDescription: 'ROUAF - رواف | منصة تعليمية متكاملة للطلاب والمعلمين وأولياء الأمور وإدارة الأكاديمية.',
+    keywords: 'ROUAF, رواف, LMS, learning management system, online education, courses, students, teachers',
     ogImage: '/logo.jpeg',
     robotsIndex: true,
   },
@@ -84,7 +84,7 @@ const LEGACY_NAMES = [
   'أكاديمية نيوفيديا',
   'Waai Academy',
   'أكاديمية وعي',
-  'RAWAF Academy',
+  'ROUAF Academy',
   'أكاديمية رواف',
 ];
 const LEGACY_PRIMARY_COLORS = ['#369589', '#2563eb', '#00a8a8'];
@@ -149,7 +149,7 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
     root.style.setProperty('--color-secondary-dark', adjustColor(s.secondaryColor, -20));
     root.style.setProperty('--color-secondary-light', adjustColor(s.secondaryColor, 30));
     root.style.setProperty('--color-accent', s.accentColor);
-    root.style.setProperty('--color-bg-main', s.secondaryColor || '#D9C3A9');
+    root.style.setProperty('--color-bg-main', '#FAF7F2');
 
     const fontMap: Record<string, string> = {
       'Almarai': 'https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&display=swap',

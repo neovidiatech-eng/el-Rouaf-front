@@ -5,11 +5,11 @@ import CustomSelect from '../../../components/ui/CustomSelect';
 import { useRequests, useChangeRequestStatus } from '../hooks/useRequests';
 import { RequestStatus, RequestType, UserRequest } from '../../../types/requests';
 
-const REQUEST_TYPES: Record<RequestType, { ar: string; en: string; color: string }> = {
+const REQUEST_TYPES: Record<string, { ar: string; en: string; color: string }> = {
   reschedule: {
     ar: 'إعادة جدولة',
     en: 'Reschedule',
-    color: 'bg-primary-100 text-blue-700'
+    color: 'bg-primary-light text-primary'
   },
   cancel: {
     ar: 'إلغاء',
@@ -21,6 +21,23 @@ const REQUEST_TYPES: Record<RequestType, { ar: string; en: string; color: string
     en: 'Other',
     color: 'bg-gray-100 text-gray-700'
   }
+};
+
+const getRequestTypeInfo = (type?: string) => {
+  if (!type) {
+    return { ar: 'أخرى', en: 'Other', color: 'bg-gray-100 text-gray-700' };
+  }
+  const lower = String(type).trim().toLowerCase();
+  if (REQUEST_TYPES[lower]) {
+    return REQUEST_TYPES[lower];
+  }
+  if (lower.includes('reschedule')) {
+    return { ar: 'إعادة جدولة', en: 'Reschedule', color: 'bg-primary-light text-primary' };
+  }
+  if (lower.includes('cancel')) {
+    return { ar: 'إلغاء', en: 'Cancel', color: 'bg-red-100 text-red-700' };
+  }
+  return { ar: type, en: type, color: 'bg-gray-100 text-gray-700' };
 };
 
 
@@ -221,24 +238,31 @@ export default function TeacherRequests() {
                           <User className="w-4 h-4 text-white" />
                         </div>
                         <div>
-                          <p className="font-medium text-gray-900 text-sm">{request.requester.name}</p>
-                          <p className="text-xs text-gray-400">{request.schedule.title}</p>
+                          <p className="font-medium text-gray-900 text-sm">{request.requester?.name || '---'}</p>
+                          <p className="text-xs text-gray-400">{request.schedule?.title || '---'}</p>
                         </div>
 
                       </div>
                     </td>
                     <td className="px-5 py-4 text-start">
-                      <span className={`inline-flex px-3 py-1 rounded-full text-xs font-medium ${REQUEST_TYPES[request.type].color}`}>
-                        {REQUEST_TYPES[request.type][language]}
-                      </span>
+                      {(() => {
+                        const typeInfo = getRequestTypeInfo(request.type);
+                        return (
+                          <span className={`inline-flex px-3 py-1 rounded-full text-xs font-medium ${typeInfo.color}`}>
+                            {typeInfo[language] || typeInfo.en || request.type}
+                          </span>
+                        );
+                      })()}
                     </td>
                     <td className="px-5 py-4 text-start">
                       {request.requesterRole}
                     </td>
                     <td className="px-5 py-4 text-start">
-                      <p className="text-sm text-gray-900">{new Date(request.schedule.start_time).toLocaleDateString(language === 'ar' ? 'ar-EG' : 'en-US')}</p>
+                      <p className="text-sm text-gray-900">
+                        {request.schedule?.start_time ? new Date(request.schedule.start_time).toLocaleDateString(language === 'ar' ? 'ar-EG' : 'en-US') : '---'}
+                      </p>
                       <p className="text-xs text-gray-400">
-                        {new Date(request.schedule.start_time).toLocaleTimeString(language === 'ar' ? 'ar-EG' : 'en-US', { hour: '2-digit', minute: '2-digit' })}
+                        {request.schedule?.start_time ? new Date(request.schedule.start_time).toLocaleTimeString(language === 'ar' ? 'ar-EG' : 'en-US', { hour: '2-digit', minute: '2-digit' }) : ''}
                       </p>
                     </td>
                     <td className="px-5 py-4 text-start">
@@ -301,8 +325,8 @@ export default function TeacherRequests() {
             <div className="p-6 space-y-4">
               <div className="flex items-center gap-3 justify-start">
                 <div className="text-start">
-                  <p className="font-bold text-gray-900 text-lg">{selectedRequest.requester.name}</p>
-                  <p className="text-sm text-gray-500">{selectedRequest.schedule.title}</p>
+                  <p className="font-bold text-gray-900 text-lg">{selectedRequest.requester?.name || '---'}</p>
+                  <p className="text-sm text-gray-500">{selectedRequest.schedule?.title || '---'}</p>
                 </div>
                 <div className="w-12 h-12 bg-primary-light rounded-full flex items-center justify-center">
                   <User className="w-6 h-6 text-white" />
@@ -312,9 +336,14 @@ export default function TeacherRequests() {
               <div className="grid grid-cols-2 gap-3">
                 <div className="bg-gray-50 rounded-xl p-3 text-start">
                   <p className="text-xs text-gray-500 mb-1">{language === 'ar' ? 'نوع الطلب' : 'Type'}</p>
-                  <span className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium ${REQUEST_TYPES[selectedRequest.type].color}`}>
-                    {REQUEST_TYPES[selectedRequest.type][language]}
-                  </span>
+                  {(() => {
+                    const typeInfo = getRequestTypeInfo(selectedRequest.type);
+                    return (
+                      <span className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium ${typeInfo.color}`}>
+                        {typeInfo[language] || typeInfo.en || selectedRequest.type}
+                      </span>
+                    );
+                  })()}
                 </div>
                 <div className="bg-gray-50 rounded-xl p-3 text-start">
                   <p className="text-xs text-gray-500 mb-1">{language === 'ar' ? 'الحالة' : 'Status'}</p>
@@ -325,10 +354,10 @@ export default function TeacherRequests() {
                 <div className="bg-gray-50 rounded-xl p-3 text-start">
                   <p className="text-xs text-gray-500 mb-1">{language === 'ar' ? 'التوقيت الحالي' : 'Current Time'}</p>
                   <p className="font-medium text-gray-900 text-sm">
-                    {new Date(selectedRequest.schedule.start_time).toLocaleString(language === 'ar' ? 'ar-EG' : 'en-US')}
+                    {selectedRequest.schedule?.start_time ? new Date(selectedRequest.schedule.start_time).toLocaleString(language === 'ar' ? 'ar-EG' : 'en-US') : '---'}
                   </p>
                 </div>
-                {selectedRequest.type === 'reschedule' && (
+                {selectedRequest.type === 'reschedule' && selectedRequest.requestedData?.new_start_time && (
                   <div className="bg-primary-50 rounded-xl p-3 text-start border border-blue-100">
                     <p className="text-xs text-blue-600 mb-1">{language === 'ar' ? 'الموعد المقترح' : 'Suggested Time'}</p>
                     <p className="font-bold text-blue-700 text-sm">
@@ -343,7 +372,7 @@ export default function TeacherRequests() {
                 <p className="text-gray-800 text-sm">{selectedRequest.reason}</p>
               </div>
 
-              {selectedRequest.type === 'reschedule' && selectedRequest.requestedData.suggested_notes && (
+              {selectedRequest.type === 'reschedule' && selectedRequest.requestedData?.suggested_notes && (
                 <div className="bg-yellow-50 rounded-xl p-4 text-start border border-yellow-100">
                   <p className="text-xs text-yellow-600 mb-1">{language === 'ar' ? 'ملاحظات إضافية' : 'Additional Notes'}</p>
                   <p className="text-yellow-800 text-sm">{selectedRequest.requestedData.suggested_notes}</p>

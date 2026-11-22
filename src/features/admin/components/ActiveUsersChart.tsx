@@ -8,10 +8,10 @@ interface ActiveUsersChartProps {
 }
 
 const COLORS = {
-  students: "#00a8a8",
-  instructors: "#daad15",
-  admins: "#ab0000ff",
-  parents: "#022e8eff",
+  students: "#D9A76A",
+  instructors: "#A8743E",
+  admins: "#5C3E28",
+  parents: "#D9C3A9",
 };
 
 export default function ActiveUsersChart({ activeUsers }: ActiveUsersChartProps) {

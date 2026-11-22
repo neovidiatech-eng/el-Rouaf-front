@@ -25,7 +25,7 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
     <div 
       onClick={onClick}
       className={`bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex flex-col justify-between hover:shadow-md transition-all duration-300 ${
-        onClick ? "cursor-pointer hover:border-[#00a8a8]/30 hover:-translate-y-0.5" : ""
+        onClick ? "cursor-pointer hover:border-primary/40 hover:-translate-y-0.5" : ""
       }`}
     >
       <div className="flex justify-between items-start mb-6">

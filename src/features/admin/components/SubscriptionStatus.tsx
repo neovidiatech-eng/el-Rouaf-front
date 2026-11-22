@@ -8,10 +8,9 @@ interface SubscriptionsStatus {
 }
 
 const COLORS = {
-  active: "#00a8a8",
-  expiringSoon: "#daad15",
-  expired: "#b92500ff",
-
+  active: "#D9A76A",
+  expiringSoon: "#E09C48",
+  expired: "#B85444",
 };
 
 export default function SubscriptionsStatus({ subscriptionStatus }: SubscriptionsStatus) {
